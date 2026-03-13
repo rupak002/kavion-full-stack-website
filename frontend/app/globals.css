@@ -1,34 +1,50 @@
 @import "tailwindcss";
 
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap");
+
 :root {
-  --bg: #090b10;
-  --surface: #111319;
-  --surface-2: #151925;
-  --border: #2a3040;
-  --text: #f3f6ff;
-  --text-dim: #9aa4be;
-  --accent: #19c2ff;
-  --accent-2: #7df284;
+  --bg: #00020f;
+  --bg2: #0a0c1e;
+  --surface: #0e1230;
+  --surface2: #131839;
+  --border: #0e122e;
+  --border2: #1a2050;
+  --text: #ffffff;
+  --text-dim: rgba(255, 255, 255, 0.55);
+  --text-muted: rgba(255, 255, 255, 0.35);
+  --blue: #194eff;
+  --blue-light: #4d7cff;
+  --blue-glow: rgba(25, 78, 255, 0.35);
+  --accent: #ccb7ff;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-}
-
-html,
-body {
   margin: 0;
-  min-height: 100%;
+  padding: 0;
+}
+
+html {
   scroll-behavior: smooth;
-  background:
-    radial-gradient(circle at 10% 20%, rgba(25, 194, 255, 0.12), transparent 38%),
-    radial-gradient(circle at 90% 10%, rgba(125, 242, 132, 0.1), transparent 30%),
-    linear-gradient(180deg, #06080d 0%, #0a0d15 55%, #090b10 100%);
-  color: var(--text);
 }
 
 body {
-  font-family: var(--font-plus-jakarta), sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Manrope", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Inter Tight", sans-serif;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 a {
@@ -36,13 +52,106 @@ a {
   text-decoration: none;
 }
 
-.container-shell {
-  width: min(1180px, 92vw);
+.shell {
+  width: min(1200px, 90vw);
   margin-inline: auto;
 }
 
+/* Glass morphism */
 .glass {
-  border: 1px solid var(--border);
-  background: linear-gradient(145deg, rgba(17, 19, 25, 0.9), rgba(17, 19, 25, 0.6));
-  backdrop-filter: blur(10px);
+  background: linear-gradient(145deg, rgba(14, 18, 48, 0.85), rgba(10, 12, 30, 0.7));
+  border: 1px solid var(--border2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
+
+/* Gradient border card */
+.grad-border {
+  position: relative;
+  background: linear-gradient(145deg, #0e1230, #080b1a);
+  border-radius: 20px;
+}
+.grad-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 1px;
+  background: linear-gradient(145deg, rgba(25, 78, 255, 0.4), rgba(14, 18, 48, 0.2), rgba(204, 183, 255, 0.15));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Blue glow blob */
+.glow-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+/* Pill badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid rgba(25, 78, 255, 0.35);
+  color: rgba(204, 183, 255, 0.9);
+  background: rgba(25, 78, 255, 0.1);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+/* Section spacing */
+.section {
+  padding-block: 96px;
+}
+@media (max-width: 768px) {
+  .section { padding-block: 60px; }
+}
+
+/* Text gradient */
+.text-grad {
+  background: linear-gradient(135deg, #fff 30%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-grad-blue {
+  background: linear-gradient(135deg, #fff 0%, var(--blue-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated underline link */
+.nav-link {
+  position: relative;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  transition: color 0.2s;
+}
+.nav-link:hover { color: #fff; }
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--blue-light);
+  transition: width 0.25s;
+}
+.nav-link:hover::after { width: 100%; }

@@ -1,6 +1,6 @@
 {
   "startupCommands": [
-    "cd /home/user/app/backend && npm install; npm run dev",
+    "cd /home/user/app/backend && npm install; node src/server.js",
     "cd /home/user/app/frontend && npm install; npm run dev"
   ],
   "projectId": "3af11eee-8437-4540-bedc-b6d692118f2f",

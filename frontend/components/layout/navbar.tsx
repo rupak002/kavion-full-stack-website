@@ -1,120 +1,213 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/auth";
 
 const nav = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
-  { href: "/services", label: "Services" },
+  { href: "/about", label: "About" },
+  { href: "/services", label: "Services", hasDropdown: true },
   { href: "/products", label: "Products" },
   { href: "/blogs", label: "Blogs" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/contact", label: "Contact Us" },
+  { href: "/contact", label: "Contact" },
 ];
 
-const serviceColumns = {
-  "Web Development": ["Frontend Dev", "Backend Dev", "Infrastructure as a Service", "Server Management"],
-  "UI/UX Design": ["Web Design", "Application Design", "UX Research"],
-  "Digital Marketing": ["SEO", "Branding", "Logos"],
-  Testing: ["VAPT", "WAPT", "API PT", "Secure Code Review"],
-  "Cloud Infrastructure": ["Cloud Security", "AWS", "GCP", "Azure"],
-};
+const serviceItems = [
+  { label: "Cybersecurity", sub: ["VAPT", "WAPT", "API Pentest", "Secure Code Review"] },
+  { label: "Cloud", sub: ["AWS", "GCP", "Azure", "Cloud Security"] },
+  { label: "Engineering", sub: ["Frontend Dev", "Backend Dev", "Infrastructure"] },
+  { label: "Design", sub: ["UI/UX", "Web Design", "Branding"] },
+  { label: "Marketing", sub: ["SEO", "Content", "Logos"] },
+];
 
 export function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [menu, setMenu] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const user = useAuthStore((s) => s.user);
   const hydrate = useAuthStore((s) => s.hydrate);
 
   useEffect(() => {
     hydrate();
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, [hydrate]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#2a3040]/60 bg-[#0a0d15]/80 backdrop-blur-xl">
-      <div className="container-shell relative flex items-center justify-between py-4">
-        <Link href="/" className="text-lg font-extrabold tracking-[0.2em] text-cyan-300">
-          KAVION
+    <header
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        transition: "all 0.3s",
+        background: scrolled
+          ? "rgba(0,2,15,0.85)"
+          : "rgba(0,2,15,0.5)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        borderBottom: scrolled ? "1px solid rgba(25,78,255,0.15)" : "1px solid transparent",
+      }}
+    >
+      <div className="shell" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 0" }}>
+        {/* Logo */}
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{
+            width: 28, height: 28, borderRadius: 8,
+            background: "linear-gradient(135deg, #194eff, #8b5cf6)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 13, fontWeight: 900, color: "#fff", letterSpacing: 1,
+            fontFamily: "Inter Tight, sans-serif",
+          }}>K</div>
+          <span style={{ fontSize: 16, fontWeight: 800, letterSpacing: "0.12em", color: "#fff", fontFamily: "Inter Tight, sans-serif" }}>
+            KAVION
+          </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 text-sm text-[#dbe3ff] lg:flex">
-          {nav.map((item) => (
-            <div key={item.href} className="relative">
-              {item.label === "Services" ? (
-                <button onMouseEnter={() => setMenu(true)} onMouseLeave={() => setMenu(false)} className="cursor-pointer hover:text-cyan-300">
-                  Services
-                </button>
-              ) : (
-                <Link href={item.href} className="hover:text-cyan-300">
+        {/* Desktop Nav */}
+        <nav style={{ display: "flex", alignItems: "center", gap: 32 }} className="hidden lg:flex">
+          {nav.map((item) =>
+            item.hasDropdown ? (
+              <div
+                key={item.href}
+                style={{ position: "relative" }}
+                onMouseEnter={() => setServicesOpen(true)}
+                onMouseLeave={() => setServicesOpen(false)}
+              >
+                <button
+                  className="nav-link"
+                  style={{ display: "flex", alignItems: "center", gap: 4, background: "none", border: "none", cursor: "pointer", fontFamily: "inherit" }}
+                >
                   {item.label}
-                </Link>
-              )}
-            </div>
-          ))}
+                  <ChevronDown size={13} style={{ transition: "transform 0.2s", transform: servicesOpen ? "rotate(180deg)" : "none" }} />
+                </button>
+
+                <AnimatePresence>
+                  {servicesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.18 }}
+                      style={{
+                        position: "absolute",
+                        top: "calc(100% + 16px)",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: 740,
+                        background: "linear-gradient(145deg, #0e1230ee, #080b1aee)",
+                        border: "1px solid rgba(25,78,255,0.2)",
+                        borderRadius: 20,
+                        padding: "28px 32px",
+                        backdropFilter: "blur(20px)",
+                        display: "grid",
+                        gridTemplateColumns: "repeat(5, 1fr)",
+                        gap: 20,
+                      }}
+                    >
+                      {serviceItems.map((col) => (
+                        <div key={col.label}>
+                          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#4d7cff", marginBottom: 12 }}>
+                            {col.label}
+                          </p>
+                          <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                            {col.sub.map((s) => (
+                              <li key={s}>
+                                <Link href="/services" style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", transition: "color 0.2s" }}
+                                  onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
+                                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
+                                >
+                                  {s}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <Link key={item.href} href={item.href} className="nav-link">
+                {item.label}
+              </Link>
+            )
+          )}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        {/* Desktop CTA */}
+        <div className="hidden lg:flex" style={{ alignItems: "center", gap: 10 }}>
           {user?.role === "admin" && (
-            <Link href="/admin" className="rounded-full border border-cyan-400/50 px-4 py-2 text-xs text-cyan-200">
+            <Link href="/admin" style={{
+              padding: "8px 18px", borderRadius: 100, fontSize: 12, fontWeight: 600,
+              border: "1px solid rgba(25,78,255,0.5)", color: "#4d7cff", transition: "all 0.2s",
+            }}>
               Admin
             </Link>
           )}
-          <Link href="/signup" className="rounded-full border border-[#2a3040] px-4 py-2 text-xs text-slate-200">
-            Signup
+          <Link href="/login" style={{
+            padding: "8px 20px", borderRadius: 100, fontSize: 12, fontWeight: 600,
+            border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.7)",
+            transition: "all 0.2s",
+          }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; e.currentTarget.style.color = "#fff"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
+          >
+            Log in
           </Link>
-          <Link href="/login" className="rounded-full bg-cyan-400 px-4 py-2 text-xs font-bold text-slate-950">
-            Login
+          <Link href="/contact" style={{
+            padding: "8px 20px", borderRadius: 100, fontSize: 12, fontWeight: 700,
+            background: "linear-gradient(135deg, #194eff, #4d7cff)",
+            color: "#fff", transition: "opacity 0.2s",
+          }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+          >
+            Get Started
           </Link>
         </div>
 
-        <button className="lg:hidden" onClick={() => setOpen((v) => !v)}>
-          {open ? <X /> : <Menu />}
+        {/* Mobile toggle */}
+        <button
+          className="lg:hidden"
+          onClick={() => setMobileOpen((v) => !v)}
+          style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", padding: 4 }}
+        >
+          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
-
-        <AnimatePresence>
-          {menu && (
-            <motion.div
-              onMouseEnter={() => setMenu(true)}
-              onMouseLeave={() => setMenu(false)}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-              className="glass absolute top-14 left-1/2 hidden w-[880px] -translate-x-1/2 rounded-2xl p-6 lg:grid lg:grid-cols-5 lg:gap-4"
-            >
-              {Object.entries(serviceColumns).map(([title, items]) => (
-                <div key={title}>
-                  <h4 className="mb-3 text-xs font-bold uppercase text-cyan-300">{title}</h4>
-                  <ul className="space-y-2 text-xs text-slate-300">
-                    {items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
+      {/* Mobile menu */}
       <AnimatePresence>
-        {open && (
-          <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 30 }} className="glass border-t border-[#2a3040] lg:hidden">
-            <div className="container-shell flex flex-col gap-4 py-6">
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            style={{ overflow: "hidden", borderTop: "1px solid rgba(25,78,255,0.15)", background: "rgba(0,2,15,0.95)" }}
+          >
+            <div className="shell" style={{ display: "flex", flexDirection: "column", gap: 4, padding: "20px 0 24px" }}>
               {nav.map((item) => (
-                <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="text-sm text-slate-200">
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  style={{ padding: "10px 0", fontSize: 14, color: "rgba(255,255,255,0.7)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+                >
                   {item.label}
                 </Link>
               ))}
-              <div className="flex gap-2">
-                <Link href="/signup" className="rounded-full border border-[#2a3040] px-4 py-2 text-xs">
-                  Signup
+              <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+                <Link href="/login" style={{ flex: 1, textAlign: "center", padding: "10px", borderRadius: 100, fontSize: 12, fontWeight: 600, border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }}>
+                  Log in
                 </Link>
-                <Link href="/login" className="rounded-full bg-cyan-400 px-4 py-2 text-xs font-bold text-slate-950">
-                  Login
+                <Link href="/contact" style={{ flex: 1, textAlign: "center", padding: "10px", borderRadius: 100, fontSize: 12, fontWeight: 700, background: "linear-gradient(135deg,#194eff,#4d7cff)", color: "#fff" }}>
+                  Get Started
                 </Link>
               </div>
             </div>
