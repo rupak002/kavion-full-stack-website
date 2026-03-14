@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { api, getErrorMessage } from "@/lib/api";
 import { useAuthStore } from "@/store/auth";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, X } from "lucide-react";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,6 @@ export default function LoginPage() {
 
   return (
     <section style={{ minHeight: "calc(100vh - 140px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 20px", position: "relative" }}>
-      {/* Background glow */}
       <div style={{ position: "absolute", width: 500, height: 500, borderRadius: "50%", background: "rgba(25,78,255,0.08)", filter: "blur(80px)", pointerEvents: "none" }} />
 
       <motion.div
@@ -52,6 +51,22 @@ export default function LoginPage() {
         className="grad-border"
         style={{ width: "100%", maxWidth: 420, padding: "40px 36px", position: "relative" }}
       >
+        {/* Close button */}
+        <Link
+          href="/"
+          style={{
+            position: "absolute", top: 16, right: 16,
+            width: 32, height: 32, borderRadius: "50%",
+            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            color: "rgba(255,255,255,0.5)", transition: "all 0.2s",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.12)"; e.currentTarget.style.color = "#fff"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.06)"; e.currentTarget.style.color = "rgba(255,255,255,0.5)"; }}
+        >
+          <X size={14} />
+        </Link>
+
         {/* Icon */}
         <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
           <div style={{ width: 48, height: 48, borderRadius: 14, background: "linear-gradient(135deg,#194eff,#8b5cf6)", display: "flex", alignItems: "center", justifyContent: "center" }}>

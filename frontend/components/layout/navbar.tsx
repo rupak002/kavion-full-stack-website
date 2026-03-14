@@ -17,11 +17,43 @@ const nav = [
 ];
 
 const serviceItems = [
-  { label: "Cybersecurity", sub: ["VAPT", "WAPT", "API Pentest", "Secure Code Review"] },
-  { label: "Cloud", sub: ["AWS", "GCP", "Azure", "Cloud Security"] },
-  { label: "Engineering", sub: ["Frontend Dev", "Backend Dev", "Infrastructure"] },
-  { label: "Design", sub: ["UI/UX", "Web Design", "Branding"] },
-  { label: "Marketing", sub: ["SEO", "Content", "Logos"] },
+  {
+    label: "Cybersecurity",
+    sub: [
+      "VAPT",
+      "Web App Pentest",
+      "API Pentest",
+      "Cloud Pentest",
+      "Network Pentest",
+      "Mobile Pentest",
+      "SAST/DAST",
+      "Secure Code Review",
+    ],
+  },
+  {
+    label: "Cloud",
+    sub: ["AWS Architecture", "GCP Migration", "Azure DevOps", "Cloud Security"],
+  },
+  {
+    label: "Engineering",
+    sub: ["Frontend Development", "Backend Development"],
+  },
+  {
+    label: "Design",
+    sub: ["Web Design", "Application Design", "UX Research", "Content Design", "Visual Design"],
+  },
+  {
+    label: "Marketing",
+    sub: ["Technical SEO", "Logos", "Branding"],
+  },
+  {
+    label: "Compliance",
+    sub: ["ISO 27001", "SOC 2 Type II", "GDPR Compliance", "Security Audit", "Risk Assessment"],
+  },
+  {
+    label: "Infrastructure",
+    sub: ["Endpoint", "SaaS", "OS Hardening", "Server Management", "NAS/SAN", "Firewall"],
+  },
 ];
 
 export function Navbar() {
@@ -45,9 +77,7 @@ export function Navbar() {
         top: 0,
         zIndex: 50,
         transition: "all 0.3s",
-        background: scrolled
-          ? "rgba(0,2,15,0.85)"
-          : "rgba(0,2,15,0.5)",
+        background: scrolled ? "rgba(0,2,15,0.85)" : "rgba(0,2,15,0.5)",
         backdropFilter: "blur(16px)",
         WebkitBackdropFilter: "blur(16px)",
         borderBottom: scrolled ? "1px solid rgba(25,78,255,0.15)" : "1px solid transparent",
@@ -94,18 +124,20 @@ export function Navbar() {
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.18 }}
                       style={{
-                        position: "absolute",
-                        top: "calc(100% + 16px)",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: 740,
+                        position: "fixed",
+                        top: "70px",
+                        left: 0,
+                        right: 0,
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        width: 980,
                         background: "linear-gradient(145deg, #0e1230ee, #080b1aee)",
                         border: "1px solid rgba(25,78,255,0.2)",
                         borderRadius: 20,
                         padding: "28px 32px",
                         backdropFilter: "blur(20px)",
                         display: "grid",
-                        gridTemplateColumns: "repeat(5, 1fr)",
+                        gridTemplateColumns: "repeat(7, 1fr)",
                         gap: 20,
                       }}
                     >
@@ -117,7 +149,9 @@ export function Navbar() {
                           <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                             {col.sub.map((s) => (
                               <li key={s}>
-                                <Link href="/services" style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", transition: "color 0.2s" }}
+                                <Link
+                                  href="/services"
+                                  style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", transition: "color 0.2s" }}
                                   onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
                                   onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
                                 >
@@ -160,7 +194,7 @@ export function Navbar() {
           >
             Log in
           </Link>
-          <Link href="/contact" style={{
+          <Link href="/signup" style={{
             padding: "8px 20px", borderRadius: 100, fontSize: 12, fontWeight: 700,
             background: "linear-gradient(135deg, #194eff, #4d7cff)",
             color: "#fff", transition: "opacity 0.2s",
@@ -168,7 +202,7 @@ export function Navbar() {
             onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           >
-            Get Started
+            Sign Up
           </Link>
         </div>
 
@@ -206,8 +240,8 @@ export function Navbar() {
                 <Link href="/login" style={{ flex: 1, textAlign: "center", padding: "10px", borderRadius: 100, fontSize: 12, fontWeight: 600, border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }}>
                   Log in
                 </Link>
-                <Link href="/contact" style={{ flex: 1, textAlign: "center", padding: "10px", borderRadius: 100, fontSize: 12, fontWeight: 700, background: "linear-gradient(135deg,#194eff,#4d7cff)", color: "#fff" }}>
-                  Get Started
+                <Link href="/signup" style={{ flex: 1, textAlign: "center", padding: "10px", borderRadius: 100, fontSize: 12, fontWeight: 700, background: "linear-gradient(135deg,#194eff,#4d7cff)", color: "#fff" }}>
+                  Sign Up
                 </Link>
               </div>
             </div>

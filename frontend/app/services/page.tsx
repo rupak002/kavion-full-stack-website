@@ -9,12 +9,13 @@ import { ShieldCheck, CloudCog, Code2, BarChart3, Globe, Lock, ArrowRight, Zap }
 const icons: Record<string, React.ElementType> = { ShieldCheck, CloudCog, Code2, BarChart3, Globe, Lock };
 
 const defaultServices = [
-  { id: "1", title: "Cybersecurity", description: "Penetration testing, VAPT, threat modeling, and incident response for modern infrastructure.", icon: "ShieldCheck", subServices: ["VAPT", "WAPT", "API Pentest", "Secure Code Review", "Incident Response"] },
-  { id: "2", title: "Cloud Infrastructure", description: "AWS, GCP, Azure architecture, migration, and 24/7 cloud ops with zero-downtime SLAs.", icon: "CloudCog", subServices: ["AWS Architecture", "GCP Migration", "Azure DevOps", "Cloud Security", "Cost Optimization"] },
-  { id: "3", title: "Web Engineering", description: "Scalable full-stack development with React, Next.js, Node.js, and modern toolchains.", icon: "Code2", subServices: ["Frontend Dev", "Backend Dev", "API Design", "Infrastructure as Code", "Performance Optimization"] },
-  { id: "4", title: "Digital Marketing", description: "SEO, content strategy, and conversion-focused campaigns that drive sustainable growth.", icon: "BarChart3", subServices: ["Technical SEO", "Content Strategy", "PPC Campaigns", "Analytics", "Conversion Rate Optimization"] },
-  { id: "5", title: "UI/UX Design", description: "User-centered design systems that convert. Built for accessibility and scalability.", icon: "Globe", subServices: ["Web Design", "App Design", "UX Research", "Design Systems", "Prototyping"] },
+  { id: "1", title: "Cybersecurity", description: "Penetration testing, VAPT, threat modeling, and incident response for modern infrastructure.", icon: "ShieldCheck", subServices: ["Vulnerability Assessment and Penetration Testing", "Web Application Penetration Testing", "API Pentest","Cloud Penetration Testing","Network Penetration Testing","Mobile App Pentest","Endpoint Audit","SAST/DAST", "Secure Code Review"] },
+  { id: "2", title: "Cloud Infrastructure", description: "AWS, GCP, Azure architecture, migration, and 24/7 cloud ops with zero-downtime SLAs.", icon: "CloudCog", subServices: ["AWS Architecture", "GCP Migration", "Azure DevOps", "Cloud Security"] },
+  { id: "3", title: "Web Engineering", description: "Scalable full-stack development with React, Next.js, Node.js, and modern toolchains.", icon: "Code2", subServices: ["Frontend Development", "Backend Devlopment"] },
+  { id: "4", title: "Digital Marketing", description: "SEO, content strategy, and conversion-focused campaigns that drive sustainable growth.", icon: "BarChart3", subServices: ["Technical SEO", "Logos","Branding"] },
+  { id: "5", title: "UI/UX Design", description: "User-centered design systems that convert. Built for accessibility and scalability.", icon: "Globe", subServices: ["Web Design", "Application Design", "UX Research", "Content Design", "Visual Design"] },
   { id: "6", title: "Compliance & Audit", description: "ISO 27001, SOC 2, GDPR compliance preparation, gap analysis, and ongoing auditing.", icon: "Lock", subServices: ["ISO 27001", "SOC 2 Type II", "GDPR Compliance", "Security Audit", "Risk Assessment"] },
+  { id: "7", title: "Infrastructure as a Service", description: "ISO 27001, SOC 2, GDPR compliance preparation, gap analysis, and ongoing auditing.", icon: "Lock", subServices: ["Endpoint", "Saas", "OS Hardening", "Server Management", "NAS/Sas","Firewall"] },
 ];
 
 export default function ServicesPage() {
